@@ -10,10 +10,15 @@
 <script>
   import 'assert'
   import 'crypto'
-  import { rootPath } from '../config.js'
-  import $ from 'jquery'
+  // import { rootPath } from '../config.js'
+  // import $ from 'jquery'
+  var Vue = require('vue')
+  var VueResource = require('vue-resource')
+
+  Vue.use(VueResource)
   import CryptoJS from 'crypto-js'
-  module.exports = {
+  // import { mapActions } from 'vuex'
+  export default {
     data: function () {
       return {
         user: '',
@@ -31,7 +36,6 @@
       },
       printUser: function (user, pd) {
         var router = this.$router
-        var localStorage = this.$localStorage
         let getTimestampTemp = new Date().getTime()
         let timestamp = String(getTimestampTemp).substring(0, 10)
         let getTimestamp = parseInt(timestamp)
@@ -42,25 +46,52 @@
           'timestamp': getTimestamp,
           'signature': sign
         }
-        $.ajax({
-          type: 'POST',
-          url: rootPath + 'p/user/login',
-          data: params,
-          traditional: true,
-          success: function (data, textStatus, jqXHR) {
-            if (data.returnCode === 0) {
-              let loginUser = {
-                'userId': data.result.split('_')[0],
-                'token': data.result.split('_')[1]
-              }
-              localStorage.setItem('msg', JSON.stringify(loginUser))
-            } else {
-              console.log(data)
+        console.log(params)
+        Vue.http.post('/api/p/user/login', params).then((data) => {
+          if (data.returnCode === 0) {
+            let loginUser = {
+              'userId': data.result.split('_')[0],
+              'token': data.result.split('_')[1]
             }
-            router.push('/contain')
-          },
-          dataType: 'json'
+            this.putObject('msg', loginUser)
+          } else {
+            console.log(data)
+          }
+          router.push('/contain')
         })
+        //   type: 'POST',
+        //   url: '/api/p/user/login',
+        //   data: params,
+        //   traditional: true,
+        //   success: function (data, textStatus, jqXHR) {
+        //     if (data.returnCode === 0) {
+        //       let loginUser = {
+        //         'userId': data.result.split('_')[0],
+        //         'token': data.result.split('_')[1]
+        //       }
+        //       this.putObject('msg', loginUser)
+        //     } else {
+        //       console.log(data)
+        //     }
+        //     router.push('/contain')
+        //   },
+        //   dataType: 'json'
+        // })
+        // $.post('/api/p/user/login', params, function (data) {
+        //   if (data.returnCode === 0) {
+        //     let loginUser = {
+        //       'userId': data.result.split('_')[0],
+        //       'token': data.result.split('_')[1]
+        //     }
+        //     this.putObject('msg', loginUser)
+        //   } else {
+        //     console.log(data)
+        //   }
+        //   router.push('/contain')
+        // })
+      },
+      putObject: function (key, value) {
+        window.localStorage.setItem(key, JSON.stringify(value))
       }
     }
   }

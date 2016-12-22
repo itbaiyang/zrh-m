@@ -1,3 +1,4 @@
-export function getUser (state) {
-  return state.user.name
+export default{
+  getUser: state => state.user.name
+  // getCount: state => state.count
 }

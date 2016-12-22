@@ -1,4 +1,4 @@
-# zrh_manager
+# zrh-m
 
 > A Vue.js project
 

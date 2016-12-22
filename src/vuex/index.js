@@ -1,19 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import actions from './actions'
+import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-  user: {name: 'adfd', pwd: 'df'}
+  user: {name: 'adfd', pwd: 'df'},
+  count: 0
 }
 
 const mutations = {
-  INCREMENT (state, name) {
-    state.name = name
+  increment (state, name) {
+    state.name = 'baiyang'
+    window.localStorage.setItem('name', JSON.stringify(state.name))
   }
 }
 
 export default new Vuex.Store({
   state,
-  mutations
+  getters,
+  mutations,
+  actions
 })
 
