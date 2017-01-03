@@ -1,1 +1,1 @@
-export const rootPath = 'http://test.zhironghao.com/api/'
+export const rootPath = 'https://ssl.zhironghao.com/api/'

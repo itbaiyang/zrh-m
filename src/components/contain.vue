@@ -1,20 +1,23 @@
 <template>
-  	<div class="contain">
-      	<router-view></router-view>
-      	<button @click='change'>获取userID</button>
-        <h3>Count is {{ getUser || 'good' }}</h3>
-      	<router-link to="/">Login</router-link>
-    </div>
+  <div class="contain fl">
+    <router-view></router-view>
+  </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
-export default {
-  computed: {
-    ...mapGetters(['getUser'])
-  },
-  methods: {
-    ...mapActions(['change'])
+  export default {
+    computed: {
+      ...mapGetters(['getUser'])
+    },
+    methods: {
+      ...mapActions(['change'])
+    }
   }
-}
 </script>
+<style>
+  .contain {
+    width: calc(100% - 180px);
+    height:calc(100% - 50px);
+  }
+</style>
